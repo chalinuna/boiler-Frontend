@@ -1,0 +1,392 @@
+$blackSvg: black;
+$mainColor: #2235da;
+$gray: rgb(201, 201, 201);
+
+.noshow {
+  display: none;
+}
+
+.black {
+  color: $blackSvg;
+}
+
+.bgblack {
+  background-color: black;
+  color: white;
+}
+
+.gray {
+  background-color: $gray;
+}
+
+.fontGray {
+  color: $gray;
+}
+
+.mainColor {
+  background-color: $mainColor;
+}
+
+.Auth-area {
+  max-width: 1200px;
+  min-width: 280px;
+  width: 100%;
+  height: 100vh;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-flow: column;
+  /* 수직 정렬 */
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  /* 수평 정렬 */
+  -webkit-box-pack: center;
+  -moz-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+
+  .boiler-area {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+
+    @media (max-width: 435px) {
+      padding: 10%;
+    }
+    @media (max-width: 360px) {
+      padding: 10% 10px 10% 10px;
+    }
+    @media (max-width: 303px) {
+      padding: 10% 10px 10% 10px;
+    }
+    @media (max-width: 290px) {
+      padding: 10% 10px 10% 10px;
+    }
+  }
+
+  blockquote {
+    margin-bottom: 0px;
+    margin-top: 2px;
+  }
+
+  .find-user {
+    width: 320px;
+    @media (max-width: 330px) {
+      width: 280px;
+    }
+    @media (max-width: 290px) {
+      width: 260px;
+    }
+  }
+
+  .nikname-change {
+    text-align: center;
+    margin: 5px 0px 0px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    position: relative;
+
+    img {
+      cursor: pointer;
+    }
+
+    input {
+      width: 150px;
+      height: 30px;
+      border: none;
+      text-align: center;
+      padding: 0 0 0 0;
+      margin: 0 0 0 0;
+      font-weight: bold;
+
+      &:active,
+      &:focus {
+        background-color: white;
+        border: none;
+        outline: none;
+      }
+    }
+    .bar {
+      margin: 3px 0px 20px 0px;
+      width: 150px;
+    }
+    img {
+      position: absolute;
+      right: 20%;
+      top: 20%;
+    }
+  }
+
+  .preview-zone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0px 10px 0px;
+    position: relative;
+    .change-img {
+      position: absolute;
+      top: 69%;
+      font-weight: bolder;
+      color: white;
+      font-size: 12px;
+    }
+  }
+
+  .login-option,
+  .info-option {
+    display: flex;
+    align-items: center;
+  }
+
+  .info-option {
+    margin-top: 8px;
+    span {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  .register-option {
+    margin: 10px 0px 10px 0px;
+    display: flex;
+    flex-flow: column;
+
+    div:nth-child(2) {
+      margin-top: 2px;
+    }
+    div:nth-child(2),
+    div:nth-child(3) {
+      margin-left: 25px;
+    }
+  }
+
+  .isMaintain {
+    margin-right: auto;
+    margin-left: 4px;
+  }
+
+  .secession {
+    margin-right: auto;
+    margin-left: 4px;
+  }
+
+  .auth-number {
+    input {
+      padding: 0px 120px 0px 40px;
+    }
+    button {
+      position: absolute;
+      left: 65%;
+      top: 18%;
+      width: 100px;
+      height: 30px;
+      border: none;
+      color: white;
+      font-weight: bold;
+
+      @media (max-width: 330px) {
+        width: 90px;
+        font-size: 11px;
+      }
+
+      @media (max-width: 300px) {
+        width: 90px;
+        left: 61%;
+        font-size: 11px;
+      }
+    }
+  }
+
+  .input {
+    position: relative;
+    width: 100%;
+    font-size: 13px;
+
+    .input-icon {
+      position: absolute;
+      top: 39%;
+      width: 20px;
+      left: 4%;
+    }
+    .eye-icon {
+      position: absolute;
+      top: 39%;
+      width: 20px;
+      right: 4%;
+    }
+    .change-icon {
+      font-size: 13px;
+      font-weight: bold;
+      position: absolute;
+      top: 39%;
+      width: 30px;
+      right: 4%;
+      cursor: pointer;
+    }
+  }
+
+  input {
+    width: 100%;
+    height: 50px;
+    padding: 0px 40px 0px 40px;
+    &:focus {
+      background-color: #2234da11;
+    }
+  }
+
+  .find-button {
+    text-align: center;
+
+    span:first-child {
+      margin-right: 1rem;
+    }
+  }
+
+  .findId {
+    blockquote {
+      margin-top: 3px;
+    }
+    .button-zon {
+      display: flex;
+      justify-content: center;
+      button {
+        width: 45%;
+        height: 35px;
+        font-size: 14px;
+        font-weight: bold;
+        border: none;
+        color: white;
+      }
+      :first-child {
+        margin-right: 10px;
+        background-color: #2234dab7;
+      }
+      :nth-child(2) {
+        background-color: $mainColor;
+      }
+    }
+  }
+
+  .find-result {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px 0px 10px 0px;
+  }
+
+  .nametag {
+    font-size: 13px;
+    margin-top: 5px;
+  }
+
+  .userInfo,
+  .password-page,
+  .register,
+  .findId {
+    input,
+    button {
+      margin-top: 6px;
+    }
+  }
+
+  .login {
+    div,
+    button,
+    input {
+      margin-top: 6px;
+    }
+  }
+
+  .check-icon {
+    margin-bottom: 1px;
+    &:hover {
+      color: $mainColor;
+    }
+  }
+
+  .smallbutton {
+    font-size: 13px;
+    color: gray;
+    span {
+      &:hover {
+        color: $blackSvg;
+      }
+      &:active {
+        color: $blackSvg;
+      }
+    }
+  }
+  .warning {
+    font-size: 11px;
+    color: red;
+  }
+
+  .sns-login {
+    text-align: center;
+    font-size: 12px;
+
+    .iconzone {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      :nth-child(2) {
+        margin: 0px 10px 0px 10px;
+      }
+
+      img {
+        width: 50px;
+        cursor: pointer;
+      }
+    }
+
+    .line {
+      margin: 15px 0px 15px 0px;
+      display: flex;
+      flex-basis: 100%;
+      align-items: center;
+      color: gray;
+      &::before,
+      &::after {
+        content: "";
+        flex-grow: 1;
+        background: gray;
+        height: 1px;
+        font-size: 0px;
+        line-height: 0px;
+      }
+    }
+  }
+  .header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  .boiler-button {
+    width: 100%;
+    height: 45px;
+    border: none;
+    color: white;
+    font-weight: bold;
+  }
+
+  .auth-button {
+    width: 100%;
+    height: 35px;
+    font-size: 14px;
+    border: none;
+    color: white;
+    font-weight: bold;
+  }
+
+  .click {
+    cursor: pointer;
+  }
+}
