@@ -36,6 +36,10 @@ $gray: rgb(201, 201, 201);
   width: 100%;
   height: calc(var(--vh, 1vh) * 100);
 
+  @media (max-width: 360px) {
+    height: calc(var(--vh, 1vh) * 100 + 200px);
+  }
+
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
