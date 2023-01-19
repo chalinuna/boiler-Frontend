@@ -2,6 +2,9 @@ $blackSvg: black;
 $mainColor: #2235da;
 $gray: rgb(201, 201, 201);
 
+.mobileKeyboard {
+  height: 1800px;
+}
 .noshow {
   display: none;
 }
@@ -25,6 +28,18 @@ $gray: rgb(201, 201, 201);
 
 .mainColor {
   background-color: $mainColor;
+}
+
+.userInfo {
+  @media (max-width: 435px) {
+    margin-top: 10%;
+    padding: 60% 0% 20% 0%;
+  }
+}
+.registerView {
+  @media (max-width: 435px) {
+    padding: 70% 0% 70% 0%;
+  }
 }
 
 .Auth-area {

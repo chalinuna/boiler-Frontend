@@ -37,7 +37,7 @@ function Register() {
   }
 
   return (
-    <div className="Auth-area">
+    <div className="Auth-area registerView">
       <div className="boiler-area">
         <div className="find-user">
           <h2 className="header">회원가입</h2>

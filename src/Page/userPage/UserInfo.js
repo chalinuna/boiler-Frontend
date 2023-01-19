@@ -26,7 +26,7 @@ function UserInfo() {
   }
 
   return (
-    <div className="Auth-area">
+    <div className="Auth-area userInfo">
       <div className="boiler-area">
         <div className="find-user change userInfo">
           <h2 className="header">회원정보</h2>

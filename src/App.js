@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
-import "./App.css";
+import styled from "styled-components";
+import "./App.scss";
 import { useEffect } from "react";
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
@@ -13,6 +14,15 @@ import UserInfo from "./Page/userPage/UserInfo";
 import UserPassword from "./Page/userPage/UserPassword";
 
 function App() {
+  function setScreenSize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+    console.log(vh);
+  }
+  useEffect(() => {
+    setScreenSize();
+  });
+
   useEffect(() => {
     axios.get("/api/hello").then((response) => {
       console.log("서버실행", response);
