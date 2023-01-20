@@ -28,6 +28,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "https://port-0-perfect-boiler-backend-1jx7m2gld43p7bv.gksl2.cloudtype.app/",
+  "homepage": "https://port-0-perfect-boiler-backend-1jx7m2gld43p7bv.gksl2.cloudtype.app/",
   "eslintConfig": {
     "extends": [
       "react-app",
