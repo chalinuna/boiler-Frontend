@@ -91,12 +91,12 @@ function Register() {
         withCredentials: true,
       })
       .then((response) => {
-        console.log("인증번호 결과", response);
+        // console.log("인증번호 결과", response);
         if (response.data.success) {
-          console.log(response);
+          // console.log(response);
           setauthResult(true);
         } else {
-          console.log(response);
+          // console.log(response);
           alert("인증번호가 일치하지 않습니다.");
         }
       });
@@ -120,9 +120,16 @@ function Register() {
         .post(`${process.env.REACT_APP_API_USER}/register`, user, {
           withCredentials: true,
         })
-        .then((response) =>
-          console.log("회원가입 된 유저 정보 : ", response.data)
-        );
+        .then((response) => {
+          console.log(
+            "회원가입이 완료되었어요! 로그인은 설이 끝나면 구현할게요."
+          );
+          console.log("회원가입 된 아이디입니다 : ", response.data.userInfo.id);
+          console.log(
+            "회원가입 된 이메일입니다 : ",
+            response.data.userInfo.email
+          );
+        });
     }
   }
 
