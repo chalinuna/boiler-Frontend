@@ -5,15 +5,18 @@ $gray: rgb(201, 201, 201);
 .mobileKeyboard {
   height: 1800px;
 }
-.noshow {
+#noshow {
   display: none;
+}
+#gray {
+  background-color: $gray;
 }
 
 .black {
   color: $blackSvg;
 }
 
-.bgblack {
+#bgblack {
   background-color: black;
   color: white;
 }
