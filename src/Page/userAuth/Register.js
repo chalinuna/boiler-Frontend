@@ -47,14 +47,16 @@ function Register() {
     let user = {
       id: id,
     };
-    axios.post("/api/user/inspectId", user).then((response) => {
-      if (response.data.joinable === false) {
-        alert("이미 존재하는 아이디입니다.");
-      } else if (response.data.joinable === true) {
-        setableId(response.data.joinable);
-        alert("사용 가능한 아이디입니다.");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/inspectId`, user)
+      .then((response) => {
+        if (response.data.joinable === false) {
+          alert("이미 존재하는 아이디입니다.");
+        } else if (response.data.joinable === true) {
+          setableId(response.data.joinable);
+          alert("사용 가능한 아이디입니다.");
+        }
+      });
   }
 
   function inspectEmailRouter() {
@@ -62,14 +64,16 @@ function Register() {
       id: id,
       email: email,
     };
-    axios.post("/api/user/authEmail", user).then((response) => {
-      setableId(response.data.joinable);
-      if (response.data.joinable === false) {
-        alert("사용 불가능한 이메일입니다.");
-      } else {
-        alert("인증 메일을 발송하였습니다.");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/authEmail`, user)
+      .then((response) => {
+        setableId(response.data.joinable);
+        if (response.data.joinable === false) {
+          alert("사용 불가능한 이메일입니다.");
+        } else {
+          alert("인증 메일을 발송하였습니다.");
+        }
+      });
   }
 
   function getAuth() {
@@ -78,16 +82,18 @@ function Register() {
       auth: auth,
     };
 
-    axios.post("/api/user/getAuth", user).then((response) => {
-      console.log("인증번호 결과", response);
-      if (response.data.success) {
-        console.log(response);
-        setauthResult(true);
-      } else {
-        console.log(response);
-        alert("인증번호가 일치하지 않습니다.");
-      }
-    });
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/getAuth`, user)
+      .then((response) => {
+        console.log("인증번호 결과", response);
+        if (response.data.success) {
+          console.log(response);
+          setauthResult(true);
+        } else {
+          console.log(response);
+          alert("인증번호가 일치하지 않습니다.");
+        }
+      });
   }
 
   // auth번호로 인증번호 인증해서 setauthResult(true) 하기
@@ -105,7 +111,7 @@ function Register() {
       alert("작성하지 않은 항목이 있습니다.");
     } else {
       axios
-        .post("/api/user/register", user)
+        .post(`${process.env.REACT_APP_API_USER}/register`, user)
         .then((response) =>
           console.log("회원가입 된 유저 정보 : ", response.data)
         );
