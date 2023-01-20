@@ -48,7 +48,9 @@ function Register() {
       id: id,
     };
     axios
-      .post(`${process.env.REACT_APP_API_USER}/inspectId`, user)
+      .post(`${process.env.REACT_APP_API_USER}/inspectId`, user, {
+        withCredentials: true,
+      })
       .then((response) => {
         if (response.data.joinable === false) {
           alert("이미 존재하는 아이디입니다.");
@@ -65,7 +67,9 @@ function Register() {
       email: email,
     };
     axios
-      .post(`${process.env.REACT_APP_API_USER}/authEmail`, user)
+      .post(`${process.env.REACT_APP_API_USER}/authEmail`, user, {
+        withCredentials: true,
+      })
       .then((response) => {
         setableId(response.data.joinable);
         if (response.data.joinable === false) {
@@ -83,7 +87,9 @@ function Register() {
     };
 
     axios
-      .post(`${process.env.REACT_APP_API_USER}/getAuth`, user)
+      .post(`${process.env.REACT_APP_API_USER}/getAuth`, user, {
+        withCredentials: true,
+      })
       .then((response) => {
         console.log("인증번호 결과", response);
         if (response.data.success) {
@@ -111,7 +117,9 @@ function Register() {
       alert("작성하지 않은 항목이 있습니다.");
     } else {
       axios
-        .post(`${process.env.REACT_APP_API_USER}/register`, user)
+        .post(`${process.env.REACT_APP_API_USER}/register`, user, {
+          withCredentials: true,
+        })
         .then((response) =>
           console.log("회원가입 된 유저 정보 : ", response.data)
         );
