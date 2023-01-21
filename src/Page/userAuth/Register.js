@@ -8,9 +8,18 @@ import Pen from "../../_assets/pen-icon.svg";
 import NoCircleCheck from "../../_assets/check-icon.svg";
 import { ReactComponent as Check } from "../../_assets/check.svg";
 import axios from "axios";
+import Loading from "../../component/Loading";
+import Message from "./../../component/Message";
+import { useQuery } from "@tanstack/react-query";
 
 function Register() {
+  const [loading, setLoading] = useState(false);
+
+  const [messageShow, setmessageShow] = useState(false);
+  const [message, setmessage] = useState("");
+
   const [id, setId] = useState("");
+  const [ableId, setableId] = useState("");
 
   const [email, setEmail] = useState("");
 
@@ -20,10 +29,11 @@ function Register() {
 
   const [password, setPassword] = useState("");
   const [check, setCheck] = useState("");
-  const [nikname, setNikname] = useState("");
+
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-  const [ableId, setableId] = useState("");
+
+  const [nikname, setNikname] = useState("");
 
   const [agreeClick, setClick] = useState(false);
   const [subClick, setSub] = useState(false);
@@ -43,6 +53,12 @@ function Register() {
     }
   }
 
+  function setModal(message) {
+    setLoading(false);
+    setmessageShow(true);
+    setmessage(message);
+  }
+
   function inspectIdRouter() {
     let user = {
       id: id,
@@ -53,31 +69,44 @@ function Register() {
       })
       .then((response) => {
         if (response.data.joinable === false) {
-          alert("이미 존재하는 아이디입니다.");
+          setModal("이미 존재하는 아이디입니다.");
         } else if (response.data.joinable === true) {
           setableId(response.data.joinable);
-          alert("사용 가능한 아이디입니다.");
+          setModal("사용 가능한 아이디입니다.");
         }
       });
   }
 
-  function inspectEmailRouter() {
+  const sendEmail = async () => {
     let user = {
       id: id,
       email: email,
     };
-    axios
-      .post(`${process.env.REACT_APP_API_USER}/authEmail`, user, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        setableId(response.data.joinable);
-        if (response.data.joinable === false) {
-          alert("사용 불가능한 이메일입니다.");
-        } else {
-          alert("인증 메일을 발송하였습니다.");
-        }
-      });
+    setLoading(true);
+    try {
+      console.log(loading);
+      await axios
+        .post(`${process.env.REACT_APP_API_USER}/authEmail`, user, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setableId(response.data.joinable);
+          if (response.data.joinable === false) {
+            setModal("사용 불가능한 이메일입니다.");
+          } else {
+            setAuthButton(true);
+            setModal("인증 메일을 발송하였습니다.");
+            console.log("메일 발송 후", loading);
+          }
+        });
+    } catch (e) {
+      console.log(e, "에러");
+      setLoading(false);
+    }
+  };
+
+  function inspectEmailRouter() {
+    sendEmail();
   }
 
   function getAuth() {
@@ -86,20 +115,27 @@ function Register() {
       auth: auth,
     };
 
-    axios
-      .post(`${process.env.REACT_APP_API_USER}/getAuth`, user, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        // console.log("인증번호 결과", response);
-        if (response.data.success) {
-          // console.log(response);
-          setauthResult(true);
-        } else {
-          // console.log(response);
-          alert("인증번호가 일치하지 않습니다.");
-        }
-      });
+    if (auth === "") {
+      setModal("인증번호를 입력해주세요.");
+    } else {
+      axios
+        .post(`${process.env.REACT_APP_API_USER}/getAuth`, user, {
+          withCredentials: true,
+        })
+        .then((response) => {
+          // console.log("인증번호 결과", response);
+          if (response.data.success) {
+            // console.log(response);
+            setauthResult(true);
+            setModal("인증이 완료되었습니다.");
+          } else {
+            console.log(response);
+            // console.log(response);
+            setauthResult(false);
+            setModal("인증번호가 일치하지 않습니다.");
+          }
+        });
+    }
   }
 
   // auth번호로 인증번호 인증해서 setauthResult(true) 하기
@@ -113,8 +149,10 @@ function Register() {
       statusCode: 1,
     };
 
-    if (!id || !email || !auth || !password || !nikname) {
-      alert("작성하지 않은 항목이 있습니다.");
+    if (!id || !email || !auth || !password || !check || !nikname) {
+      setModal("작성하지 않은 항목이 있습니다.");
+    } else if (!agreeClick) {
+      setModal("이용약관에 동의하지 않으면 가입이 불가능합니다.");
     } else {
       axios
         .post(`${process.env.REACT_APP_API_USER}/register`, user, {
@@ -135,6 +173,16 @@ function Register() {
 
   return (
     <div className="Auth-area registerView">
+      {messageShow ? (
+        <Message
+          messageShow={messageShow}
+          setmessageShow={setmessageShow}
+          message={message}
+        />
+      ) : (
+        ""
+      )}
+      {loading ? <Loading /> : ""}
       <div className="boiler-area">
         <div className="find-user">
           <h2 className="header">회원가입</h2>
@@ -206,9 +254,6 @@ function Register() {
               )}
             </div>
             <div>
-              {/* 발송 후에는 문구를 '다시 발송하기'로 바꾸기 */}
-              {/* 인증이 완료되면 버튼을 disable로 바꾸고, bgblack 속성을 준 후 
-              문구를 '인증이 완료되었습니다.' 로 바꾸기 */}
               <button
                 disabled={inspectEmail ? false : true}
                 id={authResult ? "noshow" : ""}
@@ -217,7 +262,6 @@ function Register() {
                 }
                 onClick={() => {
                   inspectEmailRouter();
-                  setAuthButton(true);
                 }}
               >
                 {authButton ? "다시 발송하기" : "인증번호를 메일로 발송합니다."}
@@ -244,14 +288,13 @@ function Register() {
                     .replace(/(\..*)\./g, "$1");
                 }}
               ></input>
-              {/* 인증이 완료되면 버튼을 disable로 바꾸고, 문구를 '인증 완료.' 로 바꾸기 */}
               <button
                 onClick={() => {
                   getAuth();
                 }}
                 disabled={authResult ? true : false}
-                id={authResult ? "gray" : ""}
-                className={inspectEmail ? "mainColor" : "gray"}
+                id={authButton ? "" : "noshow"}
+                className={authResult ? "gray" : "mainColor"}
               >
                 {authResult ? "인증 완료" : "인증번호 확인"}
               </button>
@@ -353,6 +396,7 @@ function Register() {
               <div
                 onClick={() => {
                   setClick(!agreeClick);
+                  console.log(agreeClick);
                 }}
                 className={
                   agreeClick
