@@ -13,8 +13,27 @@ import { useNavigate } from "react-router-dom";
 
 function Login() {
   let navigate = useNavigate();
-  const [click, setClick] = useState(false);
-  const [show, setShow] = useState(false);
+
+  const [click, setClick] = useState(false); //로그인 유지 여부
+  const [show, setShow] = useState(false); //비밀번호 보이기 여부
+
+  const [id, setId] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [subClick, setSub] = useState(false);
+
+  function keyup(e) {
+    const regExp = /[^0-9a-zA-Z`~!@#$%^&*()-_=+]/g;
+    const ele = e.target;
+    if (regExp.test(ele.value)) {
+      ele.value = ele.value.replace(regExp, "");
+    }
+  }
+
+  let inspectId = id && /(?=.*\d)(?=.*[a-z]).{6,12}/.test(id);
+  let inspectPassword =
+    password && /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,16}$/.test(password);
+
   return (
     <div className="Auth-area">
       <div className="boiler-area">
@@ -23,13 +42,42 @@ function Login() {
           <div>
             <div className="id input">
               <img src={Idicon} className="input-icon" alt="id" />
-              <input placeholder="아이디를 입력해주세요."></input>
+              <input
+                onChange={(e) => {
+                  setId(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  keyup(e);
+                }}
+                maxLength="12"
+                placeholder="아이디를 입력해주세요."
+              ></input>
+            </div>
+            <div>
+              {subClick && !id && (
+                <blockquote className="warning">
+                  아이디를 입력해 주세요.
+                </blockquote>
+              )}
+              {!inspectId && id && (
+                <blockquote className="warning">
+                  아이디 형식이 올바르지 않습니다. 최소 하나의 숫자와 하나의
+                  영소문자를 포함하여 6~12자의 아이디를 설정해 주세요.
+                </blockquote>
+              )}
             </div>
             <div className="password input">
               <img src={Passwordicon} className="input-icon" alt="password" />
               <input
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                onKeyUp={(e) => {
+                  keyup(e);
+                }}
                 placeholder="비밀번호를 입력해주세요."
                 type={show ? "" : "password"}
+                maxLength="16"
               ></input>
               <img
                 onClick={() => {
@@ -39,6 +87,19 @@ function Login() {
                 className="eye-icon"
                 alt="show password"
               />
+            </div>
+            <div>
+              {password && !inspectPassword && (
+                <blockquote className="warning">
+                  하나 이상의 영어, 숫자, 특수문자를 포함하여 최소 8자 이상,
+                  16자 이하의 비밀번호를 설정해 주세요.
+                </blockquote>
+              )}
+              {subClick && !id && (
+                <blockquote className="warning">
+                  비밀번호를 입력해 주세요.
+                </blockquote>
+              )}
             </div>
           </div>
           <div className="login-option smallbutton">
@@ -64,12 +125,20 @@ function Login() {
               회원가입
             </span>
           </div>
-          <div className="warning">
+          {/* 로그인 결과가 틀리면.. */}
+          <div id="noshow" className="warning">
             아이디 또는 비밀번호가 올바르지 않습니다.
             <br />
             입력하신 내용을 다시 확인해주세요!
           </div>
-          <button className="mainColor boiler-button">로그인</button>
+          <button
+            onClick={() => {
+              setSub(!subClick);
+            }}
+            className="mainColor boiler-button"
+          >
+            로그인
+          </button>
           <div className="find-button smallbutton">
             <span
               onClick={() => {

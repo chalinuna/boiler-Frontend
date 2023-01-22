@@ -1,0 +1,33 @@
+.landing {
+  font-weight: 500;
+
+  .landing-top {
+    display: flex;
+
+    span:nth-child(2) {
+      margin-right: 20px;
+    }
+  }
+  .logo {
+    margin-right: auto;
+  }
+  .landing-second {
+    display: flex;
+    span {
+      cursor: pointer;
+    }
+  }
+
+  span {
+    &:hover {
+      font-weight: bold;
+      color: blue;
+      cursor: pointer;
+    }
+  }
+
+  .leftside {
+    margin-right: 50px;
+    margin-bottom: 15px;
+  }
+}

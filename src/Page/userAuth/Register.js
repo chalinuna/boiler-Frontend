@@ -334,8 +334,8 @@ function Register() {
             <div>
               {password && !inspectPassword && (
                 <blockquote className="warning">
-                  하나 이상의 문자 또는, 숫자, 특수문자를 포함하여 최소 8자
-                  이상, 16자 이하의 비밀번호를 설정해 주세요.
+                  하나 이상의 영어, 숫자, 특수문자를 포함하여 최소 8자 이상,
+                  16자 이하의 비밀번호를 설정해 주세요.
                 </blockquote>
               )}
             </div>
@@ -383,6 +383,7 @@ function Register() {
                   setNikname(e.target.value);
                 }}
                 placeholder="닉네임을 입력해주세요."
+                maxLength="18"
               ></input>
             </div>
             <div>
