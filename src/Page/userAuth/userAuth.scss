@@ -37,11 +37,11 @@ $gray: rgb(201, 201, 201);
   max-width: 1200px;
   min-width: 280px;
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
 
-  @media (max-width: 360px) {
-    height: calc(var(--vh, 1vh) * 100 + 200px);
-  }
+  // @media (max-width: 360px) {
+  //   min-height: calc(var(--vh, 1vh) * 100);
+  // }
 
   display: -webkit-box;
   display: -moz-box;
