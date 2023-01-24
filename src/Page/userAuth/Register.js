@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Idicon from "../../_assets/id-icon.svg";
 import Passwordicon from "../../_assets/password-icon.svg";
 import Eye from "../../_assets/mdi_eye.svg";
@@ -9,31 +9,50 @@ import NoCircleCheck from "../../_assets/check-icon.svg";
 import { ReactComponent as Check } from "../../_assets/check.svg";
 import axios from "axios";
 import Loading from "../../component/Loading";
-import Message from "./../../component/Message";
-import { useQuery } from "@tanstack/react-query";
+import Message from "../../component/Message";
+import { useNavigate } from "react-router-dom";
 
-function Register() {
+function reducer(state, action) {
+  return {
+    ...state,
+    [action.name]: action.value,
+  };
+}
+
+function Register(props) {
+  let navigate = useNavigate();
+  useEffect(() => {
+    if (props.isLogined) {
+      navigate("/");
+    }
+  });
+
+  const [state, dispatch] = useReducer(reducer, {
+    id: "",
+    email: "",
+    auth: "",
+    password: "",
+    check: "",
+    nikname: "",
+  });
+
+  const { id, email, auth, password, check, nikname } = state;
+  const onChange = (e) => {
+    dispatch(e.target);
+  };
+
   const [loading, setLoading] = useState(false);
 
   const [messageShow, setmessageShow] = useState(false);
   const [message, setmessage] = useState("");
 
-  const [id, setId] = useState("");
   const [ableId, setableId] = useState("");
 
-  const [email, setEmail] = useState("");
-
   const [authButton, setAuthButton] = useState(false);
-  const [auth, setAuth] = useState("");
   const [authResult, setauthResult] = useState(false);
-
-  const [password, setPassword] = useState("");
-  const [check, setCheck] = useState("");
 
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
-
-  const [nikname, setNikname] = useState("");
 
   const [agreeClick, setClick] = useState(false);
   const [subClick, setSub] = useState(false);
@@ -90,7 +109,6 @@ function Register() {
           withCredentials: true,
         })
         .then((response) => {
-          setableId(response.data.joinable);
           if (response.data.joinable === false) {
             setModal("사용 불가능한 이메일입니다.");
           } else {
@@ -159,14 +177,21 @@ function Register() {
           withCredentials: true,
         })
         .then((response) => {
-          console.log(
-            "회원가입이 완료되었어요! 로그인은 설이 끝나면 구현할게요."
-          );
-          console.log("회원가입 된 아이디입니다 : ", response.data.userInfo.id);
-          console.log(
-            "회원가입 된 이메일입니다 : ",
-            response.data.userInfo.email
-          );
+          if (response.data.success) {
+            console.log(
+              "회원가입이 완료되었어요! 로그인은 설이 끝나면 구현할게요."
+            );
+            console.log(
+              "회원가입 된 아이디입니다 : ",
+              response.data.userInfo.id
+            );
+            console.log(
+              "회원가입 된 이메일입니다 : ",
+              response.data.userInfo.email
+            );
+
+            navigate("/login");
+          }
         });
     }
   }
@@ -190,8 +215,10 @@ function Register() {
             <div className="id input">
               <img src={Idicon} className="input-icon" alt="id" />
               <input
+                name="id"
+                value={id}
                 onChange={(e) => {
-                  setId(e.target.value);
+                  onChange(e);
                 }}
                 placeholder="아이디를 입력해주세요."
                 onInput={(e) => {
@@ -232,8 +259,10 @@ function Register() {
             <div className="email input">
               <img src={Email} className="input-icon" alt="password" />
               <input
+                name="email"
+                value={email}
                 onChange={(e) => {
-                  setEmail(e.target.value);
+                  onChange(e);
                 }}
                 onKeyUp={(e) => {
                   keyup(e);
@@ -278,8 +307,10 @@ function Register() {
               <img src={NoCircleCheck} className="input-icon" alt="password" />
               <input
                 maxLength="6"
+                name="auth"
+                value={auth}
                 onChange={(e) => {
-                  setAuth(e.target.value);
+                  onChange(e);
                 }}
                 placeholder="인증번호"
                 onInput={(e) => {
@@ -312,8 +343,10 @@ function Register() {
               <img src={Passwordicon} className="input-icon" alt="password" />
               <input
                 disabled={authResult ? false : true}
+                name="password"
+                value={password}
                 onChange={(e) => {
-                  setPassword(e.target.value);
+                  onChange(e);
                 }}
                 placeholder="비밀번호를 입력해주세요."
                 type={show ? "" : "password"}
@@ -350,8 +383,10 @@ function Register() {
               />
               <input
                 disabled={authResult ? false : true}
+                name="check"
+                value={check}
                 onChange={(e) => {
-                  setCheck(e.target.value);
+                  onChange(e);
                 }}
                 placeholder="비밀번호를 한번 더 입력해주세요."
                 type={show2 ? "" : "password"}
@@ -379,8 +414,10 @@ function Register() {
             <div className="nikname input">
               <img src={Pen} className="input-icon" alt="id" />
               <input
+                name="nikname"
+                value={nikname}
                 onChange={(e) => {
-                  setNikname(e.target.value);
+                  onChange(e);
                 }}
                 placeholder="닉네임을 입력해주세요."
                 maxLength="18"
@@ -397,7 +434,6 @@ function Register() {
               <div
                 onClick={() => {
                   setClick(!agreeClick);
-                  console.log(agreeClick);
                 }}
                 className={
                   agreeClick

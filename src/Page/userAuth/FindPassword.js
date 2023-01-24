@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Idicon from "../../_assets/id-icon.svg";
 
-function FindPassword() {
+function FindPassword(props) {
+  let navigate = useNavigate();
   const [id, setId] = useState("");
+  useEffect(() => {
+    if (props.isLogined) {
+      navigate("/");
+    }
+  });
+
   return (
     <div className="Auth-area">
       <div className="boiler-area">

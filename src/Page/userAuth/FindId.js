@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Email from "../../_assets/mail-icon.svg";
 import NoCircleCheck from "../../_assets/check-icon.svg";
 import { useNavigate } from "react-router-dom";
 
-function FindId() {
+function FindId(props) {
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.isLogined) {
+      navigate("/");
+    }
+  });
+
   const [email, setEmail] = useState("");
   const [auth, setAuth] = useState("");
 

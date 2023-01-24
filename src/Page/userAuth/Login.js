@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../userAuth/userAuth.scss";
 import Idicon from "../../_assets/id-icon.svg";
 import Passwordicon from "../../_assets/password-icon.svg";
@@ -10,9 +10,16 @@ import Naver from "../../_assets/naver-icon.png";
 import Kakao from "../../_assets/kakao.png";
 import Google from "../../_assets/google.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Login() {
+function Login(props) {
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (props.isLogined) {
+      navigate("/");
+    }
+  });
 
   const [click, setClick] = useState(false); //로그인 유지 여부
   const [show, setShow] = useState(false); //비밀번호 보이기 여부
@@ -21,6 +28,8 @@ function Login() {
   const [password, setPassword] = useState("");
 
   const [subClick, setSub] = useState(false);
+
+  const [loginResult, setresult] = useState(true);
 
   function keyup(e) {
     const regExp = /[^0-9a-zA-Z`~!@#$%^&*()-_=+]/g;
@@ -33,6 +42,30 @@ function Login() {
   let inspectId = id && /(?=.*\d)(?=.*[a-z]).{6,12}/.test(id);
   let inspectPassword =
     password && /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,16}$/.test(password);
+
+  function onLogin() {
+    let user = {
+      id: id,
+      password: password,
+      maintainLogin: click,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/login`, user, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        // console.log(response);
+
+        if (response.data.success) {
+          navigate("/");
+          // eslint-disable-next-line no-restricted-globals
+          location.reload();
+        } else {
+          setresult(false);
+        }
+      });
+  }
 
   return (
     <div className="Auth-area">
@@ -126,7 +159,7 @@ function Login() {
             </span>
           </div>
           {/* 로그인 결과가 틀리면.. */}
-          <div id="noshow" className="warning">
+          <div id={loginResult ? "noshow" : ""} className="warning">
             아이디 또는 비밀번호가 올바르지 않습니다.
             <br />
             입력하신 내용을 다시 확인해주세요!
@@ -134,6 +167,7 @@ function Login() {
           <button
             onClick={() => {
               setSub(!subClick);
+              onLogin();
             }}
             className="mainColor boiler-button"
           >
