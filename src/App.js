@@ -38,21 +38,29 @@ function App() {
       console.log("서버실행");
     });
 
-    axios.post(`${process.env.REACT_APP_API_USER}/auth`).then((response) => {
-      console.log("auth 결과 : ", response);
-      if (response.data.isLogined) {
-        setLogined(response.data.isLogined);
-        dispatch(
-          GET_USER({
-            id: response.data.user.id,
-            nikname: response.data.user.nikname,
-          })
-        );
-      } else if (!response.data.isLogined) {
-        setLogined(response.data.isLogined);
-        sessionStorage.clear();
-      }
-    });
+    axios
+      .post(
+        `${process.env.REACT_APP_API_USER}/auth`,
+        { id: "" },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log("auth 결과 : ", response);
+        if (response.data.isLogined) {
+          setLogined(response.data.isLogined);
+          dispatch(
+            GET_USER({
+              id: response.data.user.id,
+              nikname: response.data.user.nikname,
+            })
+          );
+        } else if (!response.data.isLogined) {
+          setLogined(response.data.isLogined);
+          sessionStorage.clear();
+        }
+      });
   }, []);
 
   return (
