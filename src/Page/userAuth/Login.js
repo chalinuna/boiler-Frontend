@@ -21,6 +21,8 @@ function Login(props) {
     }
   });
 
+  let redirectURL = `${process.env.REACT_APP_API_USER}/kakao`;
+
   const [click, setClick] = useState(false); //로그인 유지 여부
   const [show, setShow] = useState(false); //비밀번호 보이기 여부
 
@@ -199,7 +201,7 @@ function Login(props) {
               </span>
               <span>
                 {/* <a href="http://localhost:8080/api/user/kakao"> */}
-                <a href={`${process.env.REACT_APP_API_USER}/kakao`}>
+                <a href={redirectURL}>
                   <img src={Kakao} />
                 </a>
               </span>
