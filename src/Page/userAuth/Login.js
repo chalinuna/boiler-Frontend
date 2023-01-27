@@ -9,7 +9,7 @@ import { ReactComponent as Check } from "../../_assets/check.svg";
 import Naver from "../../_assets/naver-icon.png";
 import Kakao from "../../_assets/kakao.png";
 import Google from "../../_assets/google.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login(props) {
@@ -64,6 +64,15 @@ function Login(props) {
         } else {
           setresult(false);
         }
+      });
+  }
+
+  function onKakaoLogin() {
+    axios
+      .get(`${process.env.REACT_APP_API_USER}/kakao`, { withCredentials: true })
+      .then((response) => {
+        console.log("카카오 로그인 실행함");
+        console.log(response);
       });
   }
 
@@ -198,7 +207,9 @@ function Login(props) {
                 <img src={Naver} />
               </span>
               <span>
-                <img src={Kakao} />
+                <a href="http://localhost:8080/api/user/kakao">
+                  <img src={Kakao} />
+                </a>
               </span>
               <span>
                 <img src={Google} />
