@@ -67,15 +67,6 @@ function Login(props) {
       });
   }
 
-  function onKakaoLogin() {
-    axios
-      .get(`${process.env.REACT_APP_API_USER}/kakao`, { withCredentials: true })
-      .then((response) => {
-        console.log("카카오 로그인 실행함");
-        console.log(response);
-      });
-  }
-
   return (
     <div className="Auth-area">
       <div className="boiler-area">
@@ -207,7 +198,8 @@ function Login(props) {
                 <img src={Naver} />
               </span>
               <span>
-                <a href="http://localhost:8080/api/user/kakao">
+                {/* <a href="http://localhost:8080/api/user/kakao"> */}
+                <a href={`${process.env.REACT_APP_API_USER}/kakao`}>
                   <img src={Kakao} />
                 </a>
               </span>
