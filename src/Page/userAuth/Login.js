@@ -21,7 +21,8 @@ function Login(props) {
     }
   });
 
-  let redirectURL = `${process.env.REACT_APP_API_USER}/kakao`;
+  let redirectKAKAO = `${process.env.REACT_APP_API_USER}/kakao`;
+  let redirectGoogle = `${process.env.REACT_APP_API_USER}/google`;
 
   const [click, setClick] = useState(false); //로그인 유지 여부
   const [show, setShow] = useState(false); //비밀번호 보이기 여부
@@ -197,18 +198,19 @@ function Login(props) {
             <div className="line">간편 로그인</div>
             <div className="iconzone">
               <span>
-                <a href="http://localhost:8080/api/user/naver">
-                  <img src={Naver} />
-                </a>
+                {/* <a href="http://localhost:8080/api/user/naver"> */}
+                <img src={Naver} />
+                {/* </a> */}
               </span>
               <span>
                 {/* <a href="http://localhost:8080/api/user/kakao"> */}
-                <a href={redirectURL}>
+                <a href={redirectKAKAO}>
                   <img src={Kakao} />
                 </a>
               </span>
               <span>
-                <a href="http://localhost:8080/api/user/google">
+                {/* <a href="http://localhost:8080/api/user/google"> */}
+                <a href={redirectGoogle}>
                   <img src={Google} />
                 </a>
               </span>
