@@ -197,7 +197,9 @@ function Login(props) {
             <div className="line">간편 로그인</div>
             <div className="iconzone">
               <span>
-                <img src={Naver} />
+                <a href="http://localhost:8080/api/user/naver">
+                  <img src={Naver} />
+                </a>
               </span>
               <span>
                 {/* <a href="http://localhost:8080/api/user/kakao"> */}
@@ -206,7 +208,9 @@ function Login(props) {
                 </a>
               </span>
               <span>
-                <img src={Google} />
+                <a href="http://localhost:8080/api/user/google">
+                  <img src={Google} />
+                </a>
               </span>
             </div>
           </div>
