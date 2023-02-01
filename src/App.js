@@ -44,6 +44,7 @@ function App() {
       })
       .then((response) => {
         if (response.data.isLogined) {
+          console.log("auth 결과", response);
           setLogined(response.data.isLogined);
           dispatch(
             GET_USER({
