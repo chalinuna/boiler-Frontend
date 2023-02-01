@@ -106,6 +106,7 @@ function UserInfo() {
   function getAuth() {
     let user = {
       id: store.user.user_id,
+      email: originallEmail,
       auth: auth,
     };
 
