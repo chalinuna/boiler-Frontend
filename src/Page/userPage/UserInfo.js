@@ -46,9 +46,13 @@ function UserInfo() {
 
   useEffect(() => {
     axios
-      .post(`${process.env.REACT_APP_API_USER}/auth`, {
-        withCredentials: true,
-      })
+      .post(
+        `${process.env.REACT_APP_API_USER}/auth`,
+        { id: "" },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
         setOriginal(response.data.user.email);
       });

@@ -37,14 +37,17 @@ function App() {
     axios.get("/api/hello").then((response) => {
       console.log("서버실행");
     });
-
     axios
-      .post(`${process.env.REACT_APP_API_USER}/auth`, {
-        withCredentials: true,
-      })
+      .post(
+        `${process.env.REACT_APP_API_USER}/auth`,
+        { id: "" },
+        {
+          withCredentials: true,
+        }
+      )
       .then((response) => {
+        console.log("auth 결과", response);
         if (response.data.isLogined) {
-          console.log("auth 결과", response);
           setLogined(response.data.isLogined);
           dispatch(
             GET_USER({
