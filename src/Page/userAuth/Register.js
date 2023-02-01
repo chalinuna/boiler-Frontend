@@ -103,7 +103,6 @@ function Register(props) {
     };
     setLoading(true);
     try {
-      console.log(loading);
       await axios
         .post(`${process.env.REACT_APP_API_USER}/authEmail`, user, {
           withCredentials: true,
@@ -114,7 +113,6 @@ function Register(props) {
           } else {
             setAuthButton(true);
             setModal("인증 메일을 발송하였습니다.");
-            console.log("메일 발송 후", loading);
           }
         });
     } catch (e) {
@@ -141,14 +139,11 @@ function Register(props) {
           withCredentials: true,
         })
         .then((response) => {
-          // console.log("인증번호 결과", response);
           if (response.data.success) {
-            // console.log(response);
             setauthResult(true);
             setModal("인증이 완료되었습니다.");
           } else {
             console.log(response);
-            // console.log(response);
             setauthResult(false);
             setModal("인증번호가 일치하지 않습니다.");
           }
@@ -178,18 +173,6 @@ function Register(props) {
         })
         .then((response) => {
           if (response.data.success) {
-            console.log(
-              "회원가입이 완료되었어요! 로그인은 설이 끝나면 구현할게요."
-            );
-            console.log(
-              "회원가입 된 아이디입니다 : ",
-              response.data.userInfo.id
-            );
-            console.log(
-              "회원가입 된 이메일입니다 : ",
-              response.data.userInfo.email
-            );
-
             navigate("/login");
           }
         });

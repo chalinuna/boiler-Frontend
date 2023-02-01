@@ -39,21 +39,17 @@ function App() {
     });
 
     axios
-      .post(
-        `${process.env.REACT_APP_API_USER}/auth`,
-        { id: "" },
-        {
-          withCredentials: true,
-        }
-      )
+      .post(`${process.env.REACT_APP_API_USER}/auth`, {
+        withCredentials: true,
+      })
       .then((response) => {
-        console.log("auth 결과 : ", response);
         if (response.data.isLogined) {
           setLogined(response.data.isLogined);
           dispatch(
             GET_USER({
               id: response.data.user.id,
               nikname: response.data.user.nikname,
+              provider: response.data.user.provider,
             })
           );
         } else if (!response.data.isLogined) {

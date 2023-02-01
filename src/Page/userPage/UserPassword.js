@@ -3,8 +3,18 @@ import React, { useState } from "react";
 import Passwordicon from "../../_assets/password-icon.svg";
 import Eye from "../../_assets/mdi_eye.svg";
 import EyeOff from "../../_assets/eye-off.svg";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Message from "../../component/Message";
+import { useNavigate } from "react-router-dom";
 
 function UserPassword() {
+  let store = useSelector((state) => {
+    return state;
+  });
+
+  let navigate = useNavigate();
+
   const [password, setPassword] = useState("");
 
   const [changePassword, setchangePassword] = useState("");
@@ -13,12 +23,74 @@ function UserPassword() {
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
 
+  const [messageShow, setmessageShow] = useState(false);
+  const [message, setmessage] = useState("");
+
+  const [able, setAble] = useState(false);
+
   let inspectPassword =
     changePassword &&
     /^[a-zA-Z\\d`~!@#$%^&*()-_=+]{8,16}$/.test(changePassword);
 
+  function setModal(message) {
+    setmessageShow(true);
+    setmessage(message);
+  }
+
+  function originPassword() {
+    let user = {
+      id: store.user.user_id,
+      password: password,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/checkPassword`, user, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.data.isMatch) {
+          setModal("비밀번호가 일치합니다.");
+          setAble(true);
+        } else if (!response.data.isMatch) {
+          setModal("비밀번호가 일치하지 않습니다.");
+        }
+      });
+  }
+
+  function onSave() {
+    let user = {
+      id: store.user.user_id,
+      password: changePassword,
+    };
+
+    axios
+      .post(`${process.env.REACT_APP_API_USER}/changePassword`, user, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        if (response.data.success) {
+          setModal(`비밀번호 변경을 완료하였습니다.
+          2초 뒤 메인페이지로 이동합니다.`);
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          setModal("비밀번호 변경에 실패했습니다.");
+        }
+      });
+  }
+
   return (
     <div className="Auth-area">
+      {messageShow ? (
+        <Message
+          messageShow={messageShow}
+          setmessageShow={setmessageShow}
+          message={message}
+        />
+      ) : (
+        ""
+      )}
       <div className="boiler-area">
         <div className="find-user change password">
           <h2 className="header">비밀번호 변경</h2>
@@ -50,23 +122,20 @@ function UserPassword() {
                 className={
                   password ? "mainColor auth-button" : "gray auth-button"
                 }
+                onClick={() => {
+                  originPassword();
+                }}
               >
                 현재 비밀번호 확인
               </button>
             </div>
-            <div>
-              {/* 비밀번호가 올바르지 않을 경우 */}
-              <blockquote className="warning">
-                비밀번호가 올바르지 않습니다.
-              </blockquote>
-            </div>
             {/* 비밀번호가 올바를 경우에만 disble을 해제한다. */}
             <hr />
-            <div className="nametag">변경 비밀번호</div>
+            <div className="nametag">변경할 비밀번호</div>
             <div className="password input">
               <img src={Passwordicon} className="input-icon" alt="password" />
               <input
-                // disabled="true"
+                disabled={!able}
                 onChange={(e) => {
                   setchangePassword(e.target.value);
                 }}
@@ -93,9 +162,8 @@ function UserPassword() {
 
             <div className="password input">
               <img src={Passwordicon} className="input-icon" alt="password" />
-              {/* 비밀번호가 올바를 경우에만 disble을 해제한다. */}
               <input
-                // disabled="true"
+                disabled={!able}
                 onChange={(e) => {
                   setCheck(e.target.value);
                 }}
@@ -119,11 +187,19 @@ function UserPassword() {
               )}
             </div>
             <button
+              disabled={
+                changePassword && inspectPassword && changePassword === check
+                  ? false
+                  : true
+              }
               className={
                 changePassword && inspectPassword && changePassword === check
                   ? "mainColor boiler-button"
                   : "gray boiler-button"
               }
+              onClick={() => {
+                onSave();
+              }}
             >
               비밀번호 저장
             </button>

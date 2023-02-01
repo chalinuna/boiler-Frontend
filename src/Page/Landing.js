@@ -79,14 +79,22 @@ function Landing(props) {
             <span
               className="leftside"
               onClick={() => {
-                navigate("/userInfo");
+                if (store.user.user_provider !== "local") {
+                  alert("sns 로그인 유저는 회원정보를 수정할 수 없습니다.");
+                } else {
+                  navigate("/userInfo");
+                }
               }}
             >
               유저 페이지
             </span>
             <span
               onClick={() => {
-                navigate("/passwordChange");
+                if (store.user.user_provider !== "local") {
+                  alert("sns 로그인 유저는 비밀번호를 수정할 수 없습니다.");
+                } else {
+                  navigate("/passwordChange");
+                }
               }}
             >
               비밀번호 변경
@@ -99,6 +107,7 @@ function Landing(props) {
             onClick={() => {
               onLogout();
             }}
+            style={{ cursor: "pointer" }}
           >
             로그아웃
           </div>
